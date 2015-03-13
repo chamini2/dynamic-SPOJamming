@@ -20,10 +20,6 @@ long long dp[151][151][2];
 
 long long solve(int pos, int letter, int word, bool ob) {
 
-    if (letter < word) {
-        return 0;  // Skipped words
-    }
-
     if (abbrSize - letter < M - (word + 1)) {
         return 0;  // No enough letter to accomplish
     }
@@ -51,42 +47,6 @@ long long solve(int pos, int letter, int word, bool ob) {
     dp[pos][letter][ob] = solve(pos + 1, letter + 1, word, false) + solve(pos + 1, letter, word, ob); 
 
     return dp[pos][letter][ob];
-}
-
-// pos : position on the phrase
-// letter: acm letter
-// lastW: last word covered
-// cW: current word
-long long dp2Dim[151][151]; 
-long long solve2Dim(int pos, int letter, int lastW, int cW) {
-
-    if (letter < cW) {
-        return 0;  // Skipped words
-    }
-
-    if (abbrSize - letter < M - (cW + 1)) {
-        return 0;  // No enough letter to accomplish
-    }
-    // I'm on the last word and all the letter have been placed
-    if (cW == M - 1 && letter >= abbrSize) {
-        return 1; 
-    }
-    // Went to last position and there are letters remaining
-    if (pos >= N && letter < abbrSize) {
-        return 0; 
-    }
-
-    if (dp2Dim[pos][letter] != -1) return dp2Dim[pos][letter]; 
-
-    if (importantPhrase[pos] == ' ') {
-        if (lastW != cW) return 0; 
-        return solve2Dim(pos + 1, letter, lastW, cW + 1); 
-    }
-    if (importantPhrase[pos] != abbr[letter]) {
-        return solve2Dim(pos + 1, letter, lastW, cW); 
-    }
-
-    return dp2Dim[pos][letter] = solve2Dim(pos + 1, letter + 1, cW, cW) + solve2Dim(pos + 1, letter, lastW, cW); 
 }
 
 int main() {
@@ -133,10 +93,8 @@ int main() {
             importantPhrase = os.str(); 
             N = importantPhrase.size(); 
 
-            //memset(dp, -1, sizeof(int) * 151 * 151 * 2); 
-            memset(dp2Dim, -1, sizeof(int) * 151 * 151); 
-            //long long result = solve(0, 0, 0, true);
-            long long result = solve2Dim(0, 0, -1, 0);
+            memset(dp, -1, sizeof(int) * 151 * 151 * 2); 
+            long long result = solve(0, 0, 0, true);
             cout << abbr_orig; 
             if (result == 0) {
                 cout << " is not a valid abbreviation\n";
