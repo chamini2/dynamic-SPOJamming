@@ -17,6 +17,7 @@ int solve(int pos, int map) {
     if (pos >= N)
         return 0; 
 
+    // Memoization
     if (dp[pos][map] != -1) {
         return dp[pos][map];
     }
@@ -24,9 +25,12 @@ int solve(int pos, int map) {
     int moves = MAX_INT; 
 
     for (int i = 0; i < N; ++i) {
-        if (!(map & 1 << i)) {
+        // If the row i doesn't have a queen placed in the right position
+        if (!(map & (1 << i))) {
+            // Get the distance to that position
             int rowDist = abs(i - pos); 
             int colDist = abs(goal[i] - board[pos]); 
+            // Get the min moves between placing the queen pos in the row i and not placing it
             moves = min(moves, solve(pos + 1, map | 1 << i) + rowDist + colDist); 
         }
     }
