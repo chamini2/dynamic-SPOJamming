@@ -19,11 +19,11 @@ ull cache[MAX_LENGTH + 1][MAX_LENGTH + 1][2];
 
 ull rec(int i, int w, int l, bool must) {
 
-    // If we just saw the last acronym letter, and the last word, 
+    // If we just saw the last acronym letter, and the last word,
     // and we used at least one letter in it, then it's all good
     if (l == chrs && w == 1 && !must) return 1;
 
-    // If we saw the last acronym letter, but it's not a valid usage; 
+    // If we saw the last acronym letter, but it's not a valid usage;
     // or if we ran out of phrase
     if (l == chrs || phrase[i] == '\0') return 0;
 
@@ -60,7 +60,7 @@ int main() {
 
     for (std::cin >> ins; ins > 0; std::cin >> ins) {
 
-        for (int i = 0; i < ins; ++i) 
+        for (int i = 0; i < ins; ++i)
             scanf("%s\n", inswords[i]);
 
         while (true) {
@@ -85,7 +85,7 @@ int main() {
                 }
 
                 if (is) {
-                  --ws;  
+                  --ws;
                 } else {
                     strcpy(phrase + phrase_size, input);
                     phrase_size += strlen(input);
